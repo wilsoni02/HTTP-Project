@@ -2,71 +2,74 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTTP Library Tester</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        #loading {
-            display: none;
-            color: blue;
-        }
-    </style>
+    <title>CoreHTTP</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h2>HTTP Request Tester</h2>
-<div class="section">
-    <h3>Choose your request type:</h3>
-    <button id="GET">GET</button>
-    <button id="POST">POST</button>
-    <button id="PUT">PUT</button>
-    <button id="DELETE">DELETE</button>
+<div>
+</div>
+<div class="page-area">
+    <h2 id="page-title">CoreHTTP Library</h2>
+    <form id="request-form">
+        <div>
+            <label for="route">Route</label>
+            <input type="url" name="url"
+                   id="route" class="full-width"
+                   value="https://jsonplaceholder.typicode.com/posts"
+                   pattern="https://.*" size="50"
+                   required>
+        </div>
+        <div>
+            <label for="idParam">ID Parameter (for specific post)</label>
+            <input type="number" name="idParam" id="idParam" placeholder="e.g. 1">
+        </div>
+        <div>
+            <label for="nameQuery">Name Query</label>
+            <input type="text" name="nameQuery" id="nameQuery" placeholder="e.g. John">
+        </div>
+        <div>
+            <label for="idQuery">ID Query (for filtering)</label>
+            <input type="number" name="idQuery" id="idQuery" placeholder="e.g. 1">
+        </div>
+        <div>
+            <label for="postTitle">Post/Update/Patch Title</label>
+            <input type="text" name="postTitle" id="postTitle" placeholder="Enter title">
+        </div>
+        <div>
+            <label for="postBody">Post/Update/Patch Body</label>
+            <textarea name="postBody" id="postBody" rows="4" placeholder="Enter post content"></textarea>
+        </div>
+
+        <fieldset>
+            <legend>Choose which type of HTTP request to send</legend>
+            <label>
+                <input type="radio" name="HTTPtype" value="get" checked>&nbspGET
+            </label>
+            <label>
+                <input type="radio" name="HTTPtype"  value="post">&nbspPOST</label>
+            <label>
+                <input type="radio" name="HTTPtype" value="put">&nbspPUT
+            </label>
+            <label>
+                <input type="radio" name="HTTPtype" value="delete">&nbspDELETE
+            </label>
+            <label>
+                <input type="radio" name="HTTPtype" value="patch">&nbspPATCH
+            </label>
+
+            <div>
+                <input type="submit" value="SEND" class="primary-button" id="SendReq">
+            </div>
+        </fieldset>
+    </form>
+    <h4>Response:</h4>
+    <section id="response">
+    </section>
 </div>
 
-<div class="section">
-    <h3>Enter user information:</h3>
-    <label>UserId:</label>
-    <input type="text" id="userId" placeholder="UserId">
-    <br>
-    <label>Number:</label>
-    <input type="number" id="number" placeholder="Number">
-</div>
-
-<label>Method:</label>
-
-<br><br>
-<label>URL:</label>
-<input type="text" id="url" style="width: 70%;" value="https://jsonplaceholder.typicode.com/posts">
-<br><br>
-
-<div id="queryParamsSection">
-    <label>Query Parameters:</label><br>
-    <div class="container">
-        <input type="text" placeholder="Key" class="queryKey">
-        <input type="text" placeholder="Value" class="queryValue">
-    </div>
-    <button id="sendButton">Send</button>
-
-</div>
-<br><br>
-
-<span id="loading">Loading...</span>
-<div id="dataSection">
-    <label>Data (for POST, PUT, PATCH):</label>
-    <textarea id="requestData" rows="5" cols="50"></textarea>
-    <br><br>
-</div>
-<br><br>
-
-<h3>Response:</h3>
-<pre id="response"></pre>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/json-viewer/1.4.0/jquery.json-viewer.min.js"></script>
-<script src="HttpLibrary.js"></script>
-<script src="app.js"></script>
+<script src="coreHTTP.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

@@ -1,53 +1,36 @@
+/* Reset some browser defaults */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
 body {
-    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.page-area {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
     padding: 20px;
-    display: flex;
-    justify-content: space-between;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.section {
-    flex: 1;
-    margin: 0 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.container {
+#page-title {
+    margin-bottom: 20px;
     text-align: center;
+    font-weight: bold;
 }
 
-h1, h2, label {
-    text-align: center;
-}
-
-input[type="radio"], input[type="text"], button {
-    display: inline-block;
-}
-
-h1, h2 {
-    color: #444;
-}
-
-input[type="text"], input[type="number"] {
-    padding: 10px;
-    margin-bottom: 10px; /* To give space between the inputs */
-}
-
-input[type="text"], textarea {
-    width: 80%; /* or any other percentage or fixed value */
-    margin-left: auto;
-    margin-right: auto;
-    display: block; /* ensures they are block-level and respect the auto margins */
-}
-
-input[type="radio"] {
-    display: inline-block;
-    margin-right: 15px;
-}
-
-input[type="radio"]:last-of-type {
-    margin-right: 0;
+form {
+    margin-bottom: 20px;
 }
 
 label {
@@ -56,67 +39,121 @@ label {
     font-weight: bold;
 }
 
-button {
+input[type="text"],
+input[type="number"],
+input[type="url"],
+input[type="radio"],
+input[type="submit"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+input[type="radio"] {
+    width: auto;
+    margin-right: 5px;
+}
+
+fieldset {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+legend {
+    font-weight: bold;
+}
+
+.primary-button {
     background-color: #007BFF;
     color: #fff;
-    padding: 10px 15px;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background-color 0.3s ease;
 }
 
-button {
-    padding: 10px 15px;
+.secondary-button {
+    background-color: #e0e0e0;
+    color: #333;
+    border: none;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-#methodSection {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-
-.radio-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.radio-container input[type="radio"] {
-    margin: 0 10px; /* Adjust spacing between the radio buttons if necessary */
+.secondary-button:hover {
+    background-color: #b3b3b3;
 }
 
 
-button:hover {
+.primary-button:hover {
     background-color: #0056b3;
 }
 
-#loading {
-    display: none;
-    color: #007BFF;
-}
-
 #response {
-    margin-top: 20px;
-    padding: 10px;
     border: 1px solid #ddd;
-    background-color: #f9f9f9;
+    padding: 15px;
     border-radius: 5px;
-    overflow-wrap: break-word; /* Allow long text to wrap */
 }
 
-/* Error color for the response */
-#response.color-red {
+.success-response {
+    color: green;
+}
+
+.error-response {
     color: red;
 }
 
-.queryParamsSection {
-    margin-top: 20px;
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
 }
 
-.queryKey, .queryValue {
-    margin-right: 10px;
+li:nth-child(odd) {
+    background-color: #f9f9f9;
+    padding: 5px;
+    border-radius: 3px;
 }
 
+li:hover {
+    background-color: #e8e8e8;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+
+h4 {
+    margin-bottom: 10px;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    width: 200px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Position above the tooltip element */
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
