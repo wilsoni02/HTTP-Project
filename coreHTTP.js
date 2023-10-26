@@ -45,8 +45,23 @@ class CoreHTTP {
     }
     // Sends a Delete request
     async delete(url) {
-        return { message: 'Resource Deleted Successfully', requestType: 'DELETE' };
+        try {
+            const response = await fetch(url, {
+                method: 'DELETE'
+            });
 
+            if (!response.ok) {
+                throw new Error(`Error ${response.status}: ${response.statusText}`);
+            }
+
+            const responseData = await response.json();
+            return {
+                message: `DELETE request was successful!`,
+                data: null
+            };
+        } catch (error) {
+            throw error;
+        }
     }
 
     // Sends a patch request
@@ -99,7 +114,6 @@ class CoreHTTP {
                 data: responseData
             };
         } catch (error) {
-            console.error(error);
             throw error;
         }
     }

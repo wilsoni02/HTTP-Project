@@ -5,42 +5,33 @@
 const http = new CoreHTTP();
 
 // Asynchronously sends an HTTP request based on the type specified
-async function sendRequest(reqType, targetURL) {
-    let responseData, output = "";
+    async function sendRequest(reqType, targetURL, data = null) {
+        let responseData, output = "";
+        try {
+            // Construct data outside the switch since POST, PUT, and PATCH use similar data
+            if (['post', 'put', 'patch'].includes(reqType)) {
+                data = {
+                    title: document.querySelector("#postTitle").value,
+                    body: document.querySelector("#postBody").value,
+                };
+            }
 
-    try {
-        // Switch between different request types and call the appropriate method
-        switch (reqType) {
-            case 'get':
-                responseData = await http.get(targetURL);
-                break;
-            case 'post':
-                const postData = {
-                    title: document.querySelector("#postTitle").value,
-                    body: document.querySelector("#postBody").value,
-                };
-                responseData = await http.post(targetURL, postData);
-                break;
-            case 'put':
-                const putData = {
-                    title: document.querySelector("#postTitle").value,
-                    body: document.querySelector("#postBody").value,
-                };
-                responseData = await http.put(targetURL, putData);
-                console.log('PUT responseData:', responseData);
-                break;
-            case 'delete':
-                responseData = await http.delete(targetURL);
-                break;
-
-            case 'patch':
-                const patchData = {
-                    title: document.querySelector("#postTitle").value,
-                    body: document.querySelector("#postBody").value,
-                };
-                responseData = await http.patch(targetURL, patchData);
-                console.log('PATCH responseData:', responseData);
-                break;
+            switch (reqType) {
+                case 'get':
+                    responseData = await http.get(targetURL);
+                    break;
+                case 'post':
+                    responseData = await http.post(targetURL, data);
+                    break;
+                case 'put':
+                    responseData = await http.put(targetURL, data);
+                    break;
+                case 'delete':
+                    responseData = await http.delete(targetURL);
+                    break;
+                case 'patch':
+                    responseData = await http.patch(targetURL, data);
+                    break;
         }
         // Display message if it exists
         if (responseData.message) {
@@ -54,7 +45,9 @@ async function sendRequest(reqType, targetURL) {
             });
             output += "</ul>";
         } else if (responseData.data) {
-            output += `<p><strong>${responseData.data.title}</strong> - ${responseData.data.body}</p>`;
+            const title = responseData.data.title || "No Title";
+            const body = responseData.data.body || "No Content";
+            output += `<p><strong>${title}</strong> - ${body}</p>`;
         }
 
         document.querySelector("#response").innerHTML = output;
@@ -73,8 +66,6 @@ document.querySelector("#SendReq").addEventListener("click", async (e) => {
     let baseRoute = document.querySelector("#route").value;
     const idParam = document.querySelector("#idParam").value;
     const idQuery = document.querySelector("#idQuery").value;
-    const postTitle = document.querySelector("#postTitle").value;
-    const postBody = document.querySelector("#postBody").value;
 
     if (idParam) {
         baseRoute += `/${idParam}`;
@@ -97,12 +88,7 @@ document.querySelector("#SendReq").addEventListener("click", async (e) => {
             break;
         }
     }
-// Construct the data payload for POST, PUT, and PATCH requests
-    const data = {
-        title: postTitle,
-        body: postBody,
-        userId: 1
-    };
+
 // Send the request
-    await sendRequest(reqType, baseRoute, data);
+    await sendRequest(reqType, baseRoute);
 });
