@@ -17,21 +17,30 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/json-viewer/1.4.0/jquery.json-viewer.min.css">
 </head>
 <body>
-    <h2>HTTP Request Tester</h2>
+<h2>HTTP Request Tester</h2>
 
-    <label>Method:</label>
-    <select id="httpMethod" onchange="adjustUIBasedOnMethod()">
-        <option>GET</option>
-        <option>POST</option>
-        <option>PUT</option>
-        <option>DELETE</option>
-        <option>PATCH</option>
-    </select>
-    <br><br>
+<label>Method:</label>
+<div id="methodSection">
+    <input type="radio" id="GET" name="httpMethod" value="GET" checked onchange="adjustUIBasedOnMethod()">
+    <label for="GET">GET</label>
 
-    <label>URL:</label>
-    <input type="text" id="url" style="width: 70%;" value="https://jsonplaceholder.typicode.com/posts">
-    <br><br>
+    <input type="radio" id="POST" name="httpMethod" value="POST" onchange="adjustUIBasedOnMethod()">
+    <label for="POST">POST</label>
+
+    <input type="radio" id="PUT" name="httpMethod" value="PUT" onchange="adjustUIBasedOnMethod()">
+    <label for="PUT">PUT</label>
+
+    <input type="radio" id="DELETE" name="httpMethod" value="DELETE" onchange="adjustUIBasedOnMethod()">
+    <label for="DELETE">DELETE</label>
+
+    <input type="radio" id="PATCH" name="httpMethod" value="PATCH" onchange="adjustUIBasedOnMethod()">
+    <label for="PATCH">PATCH</label>
+</div>
+<br><br>
+
+<label>URL:</label>
+<input type="text" id="url" style="width: 70%;" value="https://jsonplaceholder.typicode.com/posts">
+<br><br>
 
 <div id="queryParamsSection">
     <label>Query Parameters:</label><br>
@@ -39,76 +48,24 @@
         <input type="text" placeholder="Key" class="queryKey">
         <input type="text" placeholder="Value" class="queryValue">
     </div>
-    <button onclick="addQueryParamInput()">Add More</button>
+    <button id="sendButton">Send</button>
+
+</div>
+<br><br>
+<span id="loading">Loading...</span>
+<div id="dataSection">
+    <label>Data (for POST, PUT, PATCH):</label>
+    <textarea id="requestData" rows="5" cols="50"></textarea>
+    <br><br>
 </div>
 <br><br>
 
-    <div id="dataSection">
-        <label>Data (for POST, PUT, PATCH):</label>
-        <textarea id="requestData" rows="5" cols="50"></textarea>
-        <br><br>
-    </div>
+<h3>Response:</h3>
+<pre id="response"></pre>
 
-    <button onclick="sendRequest()">Send</button> <span id="loading">Loading...</span>
-    <br><br>
-
-    <h3>Response:</h3>
-    <pre id="response"></pre>
-
-     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/json-viewer/1.4.0/jquery.json-viewer.min.js"></script>
-
-    <script src="HttpLibrary.js"></script>
-    <script>
-        const httpLibrary = new HttpLibrary();
-
-        function adjustUIBasedOnMethod() {
-            const method = document.getElementById('httpMethod').value;
-            const dataSection = document.getElementById('dataSection');
-            if (['GET', 'DELETE'].includes(method)) {
-                dataSection.style.display = 'none';
-            } else {
-                dataSection.style.display = 'block';
-            }
-        }
-
-        adjustUIBasedOnMethod();
-
-        async function sendRequest() {
-            const method = document.getElementById('httpMethod').value;
-            const url = document.getElementById('url').value;
-            let data = document.getElementById('requestData').value;
-            if (data) {
-                data = JSON.parse(data);
-            }
-
-            document.getElementById('loading').style.display = 'inline';
-            try {
-                switch (method) {
-                    case 'GET':
-                    const queryParams = getQueryParameters();
-                    response = await httpLibrary.get(url, queryParams);
-                     break;
-                    case 'POST':
-                        response = await httpLibrary.post(url, data);
-                        break;
-                    case 'PUT':
-                        response = await httpLibrary.put(url, data);
-                        break;
-                    case 'DELETE':
-                        response = await httpLibrary.delete(url);
-                        break;
-                    case 'PATCH':
-                        response = await httpLibrary.patch(url, data);
-                        break;
-                }
-                document.getElementById('response').textContent = JSON.stringify(response, null, 4);
-            } catch (error) {
-                document.getElementById('response').textContent = 'Error: ' + error.message;
-            } finally {
-                document.getElementById('loading').style.display = 'none';
-            }
-        }
-    </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/json-viewer/1.4.0/jquery.json-viewer.min.js"></script>
+<script src="HttpLibrary.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

@@ -1,47 +1,53 @@
 class HttpLibrary {
-  async makeRequest(method, url, data = null) {
-    let config = {
-      method: method,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
+    async makeRequest(method, url, data = null) {
+        let config = {
+            method: method,
+            headers: {}
+        };
 
-    if (data) {
-      config.body = JSON.stringify(data);
+        if (data) {
+            config.headers['Content-Type'] = 'application/json';
+            config.body = JSON.stringify(data);
+        }
+
+        let response = await fetch(url, config);
+
+        if (!response.ok) {
+            throw new Error('HTTP error! Status: ' + response.status);
+        }
+
+        let result;
+        try {
+            result = await response.json();
+        } catch {
+            throw new Error('Failed to parse JSON from response.');
+        }
+        return result;
     }
 
-    let response;
-    try {
-      response = await fetch(url, config);
-      let result = await response.json();
-      return result;
-    } catch (error) {
-      throw new Error('An error occurred: ' + error.message);
+
+    async get(url, params = {}) {
+        let query = new URLSearchParams(params).toString();
+        return this.makeRequest('GET', `${url}?${query}`);
     }
-  }
 
-  async get(url, params = {}) {
-    let query = new URLSearchParams(params).toString();
-    return this.makeRequest('GET', `${url}?${query}`);
-  }
+    async post(url, data) {
+        return this.makeRequest('POST', url, data);
+    }
 
-  async post(url, data) {
-    return this.makeRequest('POST', url, data);
-  }
+    async put(url, data) {
+        return this.makeRequest('PUT', url, data);
+    }
 
-  async put(url, data) {
-    return this.makeRequest('PUT', url, data);
-  }
+    async delete(url) {
+        return this.makeRequest('DELETE', url);
+    }
 
-  async delete(url) {
-    return this.makeRequest('DELETE', url);
-  }
-
-  async patch(url, data) {
-    return this.makeRequest('PATCH', url, data);
-  }
+    async patch(url, data) {
+        return this.makeRequest('PATCH', url, data);
+    }
 }
+
 function getQueryParameters() {
     const keys = document.querySelectorAll('.queryKey');
     const values = document.querySelectorAll('.queryValue');
@@ -63,3 +69,5 @@ function addQueryParamInput() {
     `;
     queryParamsSection.insertBefore(newPair, queryParamsSection.lastChild);
 }
+
+
