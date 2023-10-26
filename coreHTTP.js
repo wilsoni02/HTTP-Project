@@ -10,15 +10,58 @@ class CoreHTTP {
     }
 
     async put(url, data) {
-        return this._makeRequest('PUT', url, data);
+        try {
+            const response = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error ${response.status}: ${response.statusText}`);
+            }
+
+            let responseData = response.status === 204 ? {} : await response.json();
+            return {
+                message: 'PUT request was successful!',
+                data: responseData
+            };
+
+        } catch (error) {
+            throw new Error(`PUT request failed: ${error.message}`);
+        }
     }
 
     async delete(url) {
-        return this._makeRequest('DELETE', url);
+        return { message: 'Resource Deleted Successfully', requestType: 'DELETE' };
+
     }
 
     async patch(url, data) {
-        return this._makeRequest('PATCH', url, data);
+        try {
+            const response = await fetch(url, {
+                method: 'PATCH',
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error ${response.status}: ${response.statusText}`);
+            }
+
+            let responseData = response.status === 204 ? {} : await response.json();
+            return {
+                message: 'PATCH request was successful!',
+                data: responseData
+            };
+
+        } catch (error) {
+            throw new Error(`PATCH request failed: ${error.message}`);
+        }
     }
 
     async _makeRequest(method, url, data = null) {
