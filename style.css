@@ -1,4 +1,6 @@
-/* Reset some browser defaults */
+/*Created By: Ian Wilson*/
+/*October 25th, 2023*/
+
 * {
     margin: 0;
     padding: 0;
@@ -146,7 +148,7 @@ h4 {
     padding: 8px;
     position: absolute;
     z-index: 1;
-    bottom: 125%; /* Position above the tooltip element */
+    bottom: 125%;
     left: 50%;
     margin-left: -100px;
     opacity: 0;

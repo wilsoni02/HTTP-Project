@@ -1,9 +1,15 @@
+// Created By: Ian Wilson
+// October 25th, 2023
+
+// Instantiate the CoreHTTP class
 const http = new CoreHTTP();
 
+// Asynchronously sends an HTTP request based on the type specified
 async function sendRequest(reqType, targetURL) {
     let responseData, output = "";
 
     try {
+        // Switch between different request types and call the appropriate method
         switch (reqType) {
             case 'get':
                 responseData = await http.get(targetURL);
@@ -36,7 +42,7 @@ async function sendRequest(reqType, targetURL) {
                 console.log('PATCH responseData:', responseData);
                 break;
         }
-
+        // Display message if it exists
         if (responseData.message) {
             output += `<p>${responseData.message}</p>`;
         }
@@ -54,17 +60,18 @@ async function sendRequest(reqType, targetURL) {
         document.querySelector("#response").innerHTML = output;
 
     } catch (error) {
-        console.error(error);
+        // Handle and display errors
         document.querySelector("#response").innerHTML = `<p>Error: ${error.message}</p>`;
     }
 }
 
+// Event listener for the "SEND" button
 document.querySelector("#SendReq").addEventListener("click", async (e) => {
     e.preventDefault();
 
+    // Fetch input values from the form
     let baseRoute = document.querySelector("#route").value;
     const idParam = document.querySelector("#idParam").value;
-    const nameQuery = document.querySelector("#nameQuery").value;
     const idQuery = document.querySelector("#idQuery").value;
     const postTitle = document.querySelector("#postTitle").value;
     const postBody = document.querySelector("#postBody").value;
@@ -74,9 +81,6 @@ document.querySelector("#SendReq").addEventListener("click", async (e) => {
     }
 
     const queryParams = [];
-    if (nameQuery) {
-        queryParams.push(`name=${nameQuery}`);
-    }
     if (idQuery) {
         queryParams.push(`id=${idQuery}`);
     }
@@ -93,12 +97,12 @@ document.querySelector("#SendReq").addEventListener("click", async (e) => {
             break;
         }
     }
-
+// Construct the data payload for POST, PUT, and PATCH requests
     const data = {
         title: postTitle,
         body: postBody,
         userId: 1
     };
-
+// Send the request
     await sendRequest(reqType, baseRoute, data);
 });

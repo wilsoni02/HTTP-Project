@@ -1,14 +1,24 @@
+// Created By: Ian Wilson
+// October 25th, 2023
+
+// Creating the Class
 class CoreHTTP {
+    // Constructor initializes the CoreHTTP instance
     constructor() { }
 
+    // Setting up the methods
+
+    // Sends a GET request to the specified URL
     async get(url) {
         return this._makeRequest('GET', url);
     }
 
+    // Sends a POST request to the specified URL with the provided data
     async post(url, data) {
         return this._makeRequest('POST', url, data);
     }
 
+    //Sends a PUT request to the specified URL with the provided data
     async put(url, data) {
         try {
             const response = await fetch(url, {
@@ -33,12 +43,13 @@ class CoreHTTP {
             throw new Error(`PUT request failed: ${error.message}`);
         }
     }
-
+    // Sends a Delete request
     async delete(url) {
         return { message: 'Resource Deleted Successfully', requestType: 'DELETE' };
 
     }
 
+    // Sends a patch request
     async patch(url, data) {
         try {
             const response = await fetch(url, {
@@ -64,6 +75,7 @@ class CoreHTTP {
         }
     }
 
+    //Makes an asynchronous HTTP request using the fetch API
     async _makeRequest(method, url, data = null) {
         const options = {
             method: method,
