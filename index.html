@@ -14,37 +14,37 @@
             color: blue;
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/json-viewer/1.4.0/jquery.json-viewer.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <h2>HTTP Request Tester</h2>
+<div class="section">
+    <h3>Choose your request type:</h3>
+    <button id="GET">GET</button>
+    <button id="POST">POST</button>
+    <button id="PUT">PUT</button>
+    <button id="DELETE">DELETE</button>
+</div>
+
+<div class="section">
+    <h3>Enter user information:</h3>
+    <label>UserId:</label>
+    <input type="text" id="userId" placeholder="UserId">
+    <br>
+    <label>Number:</label>
+    <input type="number" id="number" placeholder="Number">
+</div>
 
 <label>Method:</label>
-<div id="methodSection">
-    <input type="radio" id="GET" name="httpMethod" value="GET" checked onchange="adjustUIBasedOnMethod()">
-    <label for="GET">GET</label>
 
-    <input type="radio" id="POST" name="httpMethod" value="POST" onchange="adjustUIBasedOnMethod()">
-    <label for="POST">POST</label>
-
-    <input type="radio" id="PUT" name="httpMethod" value="PUT" onchange="adjustUIBasedOnMethod()">
-    <label for="PUT">PUT</label>
-
-    <input type="radio" id="DELETE" name="httpMethod" value="DELETE" onchange="adjustUIBasedOnMethod()">
-    <label for="DELETE">DELETE</label>
-
-    <input type="radio" id="PATCH" name="httpMethod" value="PATCH" onchange="adjustUIBasedOnMethod()">
-    <label for="PATCH">PATCH</label>
-</div>
 <br><br>
-
 <label>URL:</label>
 <input type="text" id="url" style="width: 70%;" value="https://jsonplaceholder.typicode.com/posts">
 <br><br>
 
 <div id="queryParamsSection">
     <label>Query Parameters:</label><br>
-    <div class="queryParamPair">
+    <div class="container">
         <input type="text" placeholder="Key" class="queryKey">
         <input type="text" placeholder="Value" class="queryValue">
     </div>
@@ -52,6 +52,7 @@
 
 </div>
 <br><br>
+
 <span id="loading">Loading...</span>
 <div id="dataSection">
     <label>Data (for POST, PUT, PATCH):</label>
